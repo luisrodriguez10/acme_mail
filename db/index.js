@@ -43,7 +43,8 @@ const Message = conn.define('message', {
 
 Message.belongsTo(User, {as: 'from'})
 Message.belongsTo(User, {as: 'to'})
-
+User.hasMany(Message, {foreignKey: 'fromId', as:'sent'})
+User.hasMany(Message, {foreignKey: 'toId', as:'received'})
 
 const seeder = async () => {
     await conn.sync({force: true})
