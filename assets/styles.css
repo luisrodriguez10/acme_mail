@@ -15,3 +15,15 @@ nav a{
 nav a.select{
     border: solid 1px dodgerblue;
 }
+
+form{
+    display: flex;
+    flex-direction: column;
+    border: solid 1px dodgerblue;
+    margin: 1rem;
+    padding: 1rem;
+}
+
+form > *{
+    margin: 0.5rem;
+}
