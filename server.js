@@ -67,8 +67,23 @@ app.get('/users', async (req, res, next) => {
 
 app.get('/messages', async (req, res, next) => {
     try {
-        const messages= await Message.findAll();
+        const messages= await Message.findAll(
+            {
+                include: [
+                    {
+                        model: User,
+                        as: 'from'
+                    },
+                    {
+                        model: User,
+                        as: 'to'
+                    }
+                ]
+            }
+        );
         
+        // res.send(messages)
+
         res.send(`
             <html>
                 <head>
@@ -84,7 +99,7 @@ app.get('/messages', async (req, res, next) => {
                     <ul>
                     ${messages.map( message =>   `
                         <li>
-                            ${message.subject}
+                            ${message.subject}: from ${message.from.firstName} to ${message.to.firstName}
                         </li>
                     `).join('')}
                     </ul>

@@ -41,6 +41,10 @@ const Message = conn.define('message', {
     }
 })
 
+Message.belongsTo(User, {as: 'from'})
+Message.belongsTo(User, {as: 'to'})
+
+
 const seeder = async () => {
     await conn.sync({force: true})
     const [moe, larry, lucy, ethyl, hi, bye, hello] = await Promise.all([
@@ -52,6 +56,16 @@ const seeder = async () => {
         Message.create({subject: 'Bye'}),
         Message.create({subject: 'Hello'}),
     ])
+
+    hi.fromId = moe.id
+    hi.toId = lucy.id
+    await hi.save()
+    bye.fromId = lucy.id
+    bye.toId = moe.id
+    await bye.save()
+    hello.fromId = ethyl.id
+    hello.toId = larry.id
+    await hello.save()
 }
 
 module.exports = {
